@@ -1,4 +1,5 @@
 ﻿using Employees.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Employees.Data
@@ -8,6 +9,7 @@ namespace Employees.Data
         public static void Initialize(IServiceProvider serviceProvider)
         {
             using var context = serviceProvider.GetRequiredService<AppDbContext>();
+            context.Database.Migrate();
 
             if (!context.Departments.Any())
                 context.Departments.AddRange(
@@ -64,6 +66,6 @@ namespace Employees.Data
                     }
                 );
             context.SaveChanges();
-        }        
+        }
     }
 }

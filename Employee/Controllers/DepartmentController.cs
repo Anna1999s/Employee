@@ -3,6 +3,7 @@ using Employees.Abstractions;
 using Employees.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Employees.Services;
+using System.Security.Claims;
 
 namespace Employees.Controllers
 {
@@ -26,7 +27,7 @@ namespace Employees.Controllers
         {
             var department = await _departmentService.GetById(id);
 
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
 
@@ -50,7 +51,7 @@ namespace Employees.Controllers
             {
                 await _departmentService.Add(model);
 
-                var user = User.Claims.FirstOrDefault()?.Value;
+                var user = User.FindFirstValue("name");
                 if (user != null)
                     await _userService.UpdateAction(user);
 
@@ -76,7 +77,9 @@ namespace Employees.Controllers
             if (ModelState.IsValid)
             {
                 await _departmentService.Update(model);
-                var user = User.Claims.FirstOrDefault()?.Value;
+                
+
+                var user = User.FindFirstValue("name");
                 if (user != null)
                     await _userService.UpdateAction(user);
                 return RedirectToAction(nameof(Index));
@@ -87,7 +90,7 @@ namespace Employees.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _departmentService.Delete(id);
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
             return RedirectToAction(nameof(Index));

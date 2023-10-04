@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Employees.Data;
-using Employees.Data.Entities;
-using Employees.Abstractions;
+﻿using Employees.Abstractions;
 using Employees.Shared.Models;
-using Employees.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Employees.Controllers
 {
@@ -61,7 +53,7 @@ namespace Employees.Controllers
             if (ModelState.IsValid)
             {
                 await _experienceService.Add(model);
-                var user = User.Claims.FirstOrDefault()?.Value;
+                var user = User.FindFirstValue("name");
                 if (user != null)
                     await _userService.UpdateAction(user);
                 return RedirectToAction(nameof(Index));
@@ -88,7 +80,7 @@ namespace Employees.Controllers
             if (ModelState.IsValid)
             {
                 await _experienceService.Update(model);
-                var user = User.Claims.FirstOrDefault()?.Value;
+                var user = User.FindFirstValue("name");
                 if (user != null)
                     await _userService.UpdateAction(user);
                 return RedirectToAction(nameof(Index));
@@ -99,7 +91,7 @@ namespace Employees.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _experienceService.Delete(id);
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
             return RedirectToAction(nameof(Index));

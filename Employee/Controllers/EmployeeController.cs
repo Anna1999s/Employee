@@ -2,6 +2,7 @@
 using Employees.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Employees.Controllers
 {
@@ -22,7 +23,7 @@ namespace Employees.Controllers
         }
         public async Task<IActionResult> Index(string filter)
         {
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             TempData["Filter"] = filter;
             var res = await _employeeService.Get(filter);
             if (user != null)
@@ -33,14 +34,14 @@ namespace Employees.Controllers
 
         public async Task<IActionResult> GetNames(string term)
         {
-            var result = await _employeeService.Get();
-            var names = result.Where(_ => _.Name.Contains(term)).Select(_ => _.Name).Distinct().ToList();
+            var result = await _employeeService.Get(term);
+            var names = result.Select(_ => _.Name).Distinct().ToList();
             return Json(names);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
             var employee = await _employeeService.GetById(id);
@@ -69,7 +70,7 @@ namespace Employees.Controllers
                 await _employeeService.Add(model);
                 return RedirectToAction(nameof(Index));
             }
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
             return View(model);
@@ -96,7 +97,7 @@ namespace Employees.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
 
@@ -107,7 +108,7 @@ namespace Employees.Controllers
         {
             await _employeeService.Delete(id);
 
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
 

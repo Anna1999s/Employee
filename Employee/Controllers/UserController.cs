@@ -2,6 +2,7 @@
 using Employees.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Employees.Controllers
 {
@@ -52,7 +53,7 @@ namespace Employees.Controllers
                 {
                     await _userService.Add(model);
 
-                    var user = User.Claims.FirstOrDefault()?.Value;
+                    var user = User.FindFirstValue("name");
                     if (user != null)
                         await _userService.UpdateAction(user);
 
@@ -80,7 +81,7 @@ namespace Employees.Controllers
             {
                 await _userService.Update(model);
 
-                var user = User.Claims.FirstOrDefault()?.Value;
+                var user = User.FindFirstValue("name");
                 if (user != null)
                     await _userService.UpdateAction(user);
 
@@ -93,7 +94,7 @@ namespace Employees.Controllers
         {
             await _userService.Delete(id);
 
-            var user = User.Claims.FirstOrDefault()?.Value;
+            var user = User.FindFirstValue("name");
             if (user != null)
                 await _userService.UpdateAction(user);
 

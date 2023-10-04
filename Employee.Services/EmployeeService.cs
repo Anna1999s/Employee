@@ -21,8 +21,9 @@ namespace Employees.Services
             var query = _repository.Get().Where(_ => !_.IsDeleted);
             if (!string.IsNullOrEmpty(filter))
             {
-                var listfilters = filter.ToLower().Split(" ");
-                query = query.Where(_ => listfilters.Contains(_.Name.ToLower()) || listfilters.Contains(_.LastName.ToLower()));
+                var terms = filter.ToLower().Split(" ");
+                foreach (var term in terms)
+                    query = query.Where(_ => _.Name.ToLower().Contains(term) || _.LastName.ToLower().Contains(term));
             }
             var experiences = await query.ToListAsync();
             return _mapper.Map<List<EmployeeDto>>(experiences);
@@ -31,10 +32,7 @@ namespace Employees.Services
         {
             var experiences = await _repository.Get().Where(_ => !_.IsDeleted).ToListAsync();
             var names = _mapper.Map<List<EmployeeDto>>(experiences);
-            foreach (var item in names)
-            {
-                item.Name = item.Name + " " + item.LastName;
-            }
+            
             return names;
         }
         public async Task<EmployeeDto> GetById(int Id)
