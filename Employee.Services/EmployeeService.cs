@@ -27,14 +27,7 @@ namespace Employees.Services
             }
             var experiences = await query.ToListAsync();
             return _mapper.Map<List<EmployeeDto>>(experiences);
-        }
-        public async Task<List<EmployeeDto>> GetNames()
-        {
-            var experiences = await _repository.Get().Where(_ => !_.IsDeleted).ToListAsync();
-            var names = _mapper.Map<List<EmployeeDto>>(experiences);
-            
-            return names;
-        }
+        }       
         public async Task<EmployeeDto> GetById(int Id)
         {
             var experience = await _repository.Get().FirstOrDefaultAsync(_ => _.Id == Id);

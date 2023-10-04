@@ -42,7 +42,7 @@ namespace Employees.Controllers
             return View(new ExperienceDto
             {
                 Languages = await _languageService.Get(),
-                Employees = await _employeeService.GetNames()
+                Employees = await _employeeService.Get()
             });
         }
 
@@ -68,7 +68,7 @@ namespace Employees.Controllers
             {
                 return NotFound();
             }
-            experience.Employees = await _employeeService.GetNames();
+            experience.Employees = await _employeeService.Get();
             experience.Languages = await _languageService.Get();
             return View(experience);
         }

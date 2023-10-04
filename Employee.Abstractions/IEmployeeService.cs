@@ -9,8 +9,7 @@ namespace Employees.Abstractions
 {
     public interface IEmployeeService
     {
-        Task<List<EmployeeDto>> Get(string? filter = null);
-        Task<List<EmployeeDto>> GetNames();
+        Task<List<EmployeeDto>> Get(string? filter = null);        
         Task<EmployeeDto> GetById(int Id);
         Task Add(EmployeeDto model);
         Task Delete(int id);
