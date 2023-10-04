@@ -18,7 +18,7 @@ namespace Employees.Services
         }
         public async Task<List<DepartmentDto>> Get()
         {
-            var departments = await _repository.Get().Where(_ => !_.IsDeleted).ToListAsync();
+            var departments = await _repository.Get().ToListAsync();
             return _mapper.Map<List<DepartmentDto>>(departments);
         }
         public async Task<DepartmentDto> GetById(int Id)

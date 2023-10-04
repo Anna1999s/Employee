@@ -7,8 +7,7 @@ namespace Employees.Repositories.Base
         Task<TEntity> Create(TEntity item);
         Task<TEntity> FindById(int id);
         IQueryable<TEntity> Get();
-        IQueryable<TEntity> Get(Func<TEntity, bool> predicate);
-        IQueryable<TEntity> Get(string predicate);
+        IQueryable<TEntity> Get(Func<TEntity, bool> predicate);     
         void Remove(TEntity item);
         Task Remove(int id);
         TEntity Update(TEntity item);

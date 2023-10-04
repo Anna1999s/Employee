@@ -18,7 +18,7 @@ namespace Employees.Services
         }
         public async Task<List<LanguageDto>> Get()
         {
-            var languages = await _repository.Get().Where(_ => !_.IsDeleted).ToListAsync();
+            var languages = await _repository.Get().ToListAsync();
             return _mapper.Map<List<LanguageDto>>(languages);
         }
         public async Task<LanguageDto> GetById(int Id)

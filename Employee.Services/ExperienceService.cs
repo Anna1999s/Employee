@@ -17,7 +17,7 @@ namespace Employees.Services
         }
         public async Task<List<ExperienceDto>> Get()
         {
-            var experiences = await _repository.Get().Where(_ => !_.IsDeleted).ToListAsync();
+            var experiences = await _repository.Get().ToListAsync();
             return _mapper.Map<List<ExperienceDto>>(experiences);
         }
         public async Task<ExperienceDto> GetById(int Id)

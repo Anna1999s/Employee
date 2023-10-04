@@ -18,7 +18,7 @@ namespace Employees.Services
         }
         public async Task<List<EmployeeDto>> Get(string? filter = null)
         {
-            var query = _repository.Get().Where(_ => !_.IsDeleted);
+            var query = _repository.Get();
             if (!string.IsNullOrEmpty(filter))
             {
                 var terms = filter.ToLower().Split(" ");

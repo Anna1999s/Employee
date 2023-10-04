@@ -16,16 +16,12 @@ namespace Employees.Repositories.Base
         }
         public IQueryable<TEntity> Get()
         {
-            return _dbSet.AsQueryable();
+            return _dbSet.Where(_=>!_.IsDeleted).AsQueryable();
         }
 
         public IQueryable<TEntity> Get(Func<TEntity, bool> predicate)
         {
-            return _dbSet.Where(predicate).AsQueryable();
-        }
-        public IQueryable<TEntity> Get(string predicate)
-        {
-            return _dbSet.Where(predicate).AsQueryable();
+            return Get().Where(predicate).AsQueryable();
         }
 
         public async Task<TEntity> FindById(int id)

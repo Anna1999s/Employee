@@ -20,7 +20,7 @@ namespace Employees.Services
 
         public async Task<List<UserDto>> Get()
         {
-            var users = await _repository.Get().Where(_ => !_.IsDeleted).ToListAsync();
+            var users = await _repository.Get().ToListAsync();
             return _mapper.Map<List<UserDto>>(users);
         }
         public async Task<UserDto> GetById(int Id)
