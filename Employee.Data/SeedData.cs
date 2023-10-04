@@ -65,6 +65,14 @@ namespace Employees.Data
                         Name = "C++",
                     }
                 );
+            if (!context.Users.Any())
+                context.Users.AddRange(
+                    new User
+                    {
+                        Login= "admin",
+                        Password = "admin"
+                    }                    
+                );
             context.SaveChanges();
         }
     }
