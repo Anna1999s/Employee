@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Employees.Shared.Models.UserDto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Users";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Add">Create New</a>
@@ -17,16 +17,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Password)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -39,15 +29,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Password)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Updated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
